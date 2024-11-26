@@ -1,4 +1,4 @@
-module github.com/BorisBorshevsky/timemock
+module github.com/synthesio/timemock
 
 go 1.19
 

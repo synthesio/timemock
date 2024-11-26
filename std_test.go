@@ -3,10 +3,10 @@ package timemock
 import (
 	"time"
 
-	mock_timemock "github.com/BorisBorshevsky/timemock/internal"
 	"github.com/golang/mock/gomock"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	mock_timemock "github.com/synthesio/timemock/internal"
 )
 
 var _ = Describe("Std", func() {
