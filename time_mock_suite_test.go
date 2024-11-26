@@ -1,6 +1,7 @@
 package timemock
 
 import (
+	"sync"
 	"testing"
 
 	"time"
@@ -133,3 +134,25 @@ var _ = Describe("clock", func() {
 	})
 
 })
+
+func TestRaces(t *testing.T) {
+	clock := New()
+	refTime := time.Date(2006, 1, 2, 15, 4, 5, 0, time.UTC)
+
+	n := 100
+	var wg sync.WaitGroup
+	wg.Add(n)
+	for i := 0; i < n; i++ {
+		go func() {
+			for j := 0; j < n; j++ {
+				clock.Now()
+				clock.Freeze(refTime)
+				clock.Return()
+				clock.Travel(refTime)
+				clock.Scale(2)
+			}
+			wg.Done()
+		}()
+	}
+	wg.Wait()
+}
