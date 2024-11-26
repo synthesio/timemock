@@ -156,3 +156,25 @@ func TestRaces(t *testing.T) {
 	}
 	wg.Wait()
 }
+
+func BenchmarkClock(b *testing.B) {
+	b.Run("Freezed", func(b *testing.B) {
+		clock := New()
+		refTime := time.Date(2006, 1, 2, 15, 4, 5, 0, time.UTC)
+		clock.Freeze(refTime)
+		for i := 0; i < b.N; i++ {
+			clock.Now()
+		}
+	})
+	b.Run("Unfreezed", func(b *testing.B) {
+		clock := New()
+		for i := 0; i < b.N; i++ {
+			clock.Now()
+		}
+	})
+	b.Run("Stdlib", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			time.Now()
+		}
+	})
+}

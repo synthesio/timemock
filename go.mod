@@ -1,6 +1,6 @@
 module github.com/BorisBorshevsky/timemock
 
-go 1.14
+go 1.19
 
 require (
 	github.com/golang/mock v1.4.3
