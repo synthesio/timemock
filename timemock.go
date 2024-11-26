@@ -5,10 +5,6 @@ import (
 	"time"
 )
 
-var (
-	now = time.Now
-)
-
 type timemockClock struct {
 	rw         *sync.RWMutex
 	frozen     bool
@@ -21,7 +17,7 @@ type timemockClock struct {
 func (c *timemockClock) Scale(scale float64) {
 	c.scale = scale
 	if !c.traveled {
-		c.Travel(now())
+		c.Travel(time.Now())
 	}
 }
 
@@ -39,7 +35,7 @@ func (c *timemockClock) Now() time.Time {
 		return c.freezeTime.Add(time.Duration(float64(time.Since(c.travelTime)) * c.scale))
 	}
 
-	return now()
+	return time.Now()
 }
 
 func (c *timemockClock) Freeze(t time.Time) {
@@ -53,7 +49,7 @@ func (c *timemockClock) Travel(t time.Time) {
 	c.rw.Lock()
 	defer c.rw.Unlock()
 	c.freezeTime = t
-	c.travelTime = now()
+	c.travelTime = time.Now()
 	c.traveled = true
 }
 
